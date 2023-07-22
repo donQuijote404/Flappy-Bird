@@ -64,8 +64,6 @@ export class Pipes extends Component {
         if(this.isPass == false && this.topPipe.position.x <= 0) {
             this.isPass = true;
             this.game.passPipe();
-
-            this.destroy();
         }
 
         if (this.topPipe.position.x <= (0 - this.scene.width)){

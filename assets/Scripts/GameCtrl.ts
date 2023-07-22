@@ -1,9 +1,9 @@
-import { _decorator, CCInteger, Component, director, EventKeyboard, Input, input, KeyCode, Node } from 'cc';
+import { _decorator, CCInteger, Collider, Collider2D, Component, Contact2DType, director, EventKeyboard, Input, input, IPhysics2DContact, KeyCode, Node } from 'cc';
 import {Ground} from './Ground';
 import {Results} from './Results';
 import { Bird } from './Bird';
-import { Pipes } from './Pipes';
 import { PipePool } from './PipePool';
+import { BirdAudio } from './BirdAudio';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameCtrl')
@@ -19,6 +19,11 @@ export class GameCtrl extends Component {
         tooltip: 'results go here'
     })
     public result: Results;
+
+    @property({
+        type: BirdAudio
+    })
+    public clip: BirdAudio;
 
     @property({
         type: Bird,
@@ -41,36 +46,30 @@ export class GameCtrl extends Component {
     })
     public pipeSpeed: number = 200;
 
+    public isOver: boolean;
+
 
     onLoad() {
         this.initListener();
         this.result.resetScore();
-        director.pause;
-        this.pipeQueue.initPool();
-
+        director.pause();
+        this.isOver = true;
     }
 
     initListener() {
-        input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
-
         this.node.on(Node.EventType.TOUCH_START, () => {
-            this.bird.fly();
-        })
-    }
-
-    // testting method Delete me in final version
-    onKeyDown(event: EventKeyboard) {
-        switch(event.keyCode){
-            case KeyCode.KEY_A:
-                this.gameOver();
-            break;
-            case KeyCode.KEY_P:
-                this.result.addScore();
-            break;
-            case KeyCode.KEY_Q:
+            if(this.isOver == true) {
                 this.resetGame();
                 this.bird.resetBird();
-        }
+                this.startGame()
+            }
+
+            if(this.isOver == false) {
+                this.bird.fly();
+                this.clip.onAudioQueue(0);
+            }
+            
+        })
     }
 
     startGame() {
@@ -80,20 +79,51 @@ export class GameCtrl extends Component {
 
     gameOver() {
         this.result.showResults();
+        this.isOver = true;
+        this.clip.onAudioQueue(3);
         director.pause();
     }
 
     resetGame() {
         this.result.resetScore();
         this.pipeQueue.resetPool();
-        this.startGame();
+        this.isOver = false;
+        //this.startGame();
     }
 
     passPipe() {
         this.result.addScore();
+        this.clip.onAudioQueue(1);
     }
 
     createPipe() {
         this.pipeQueue.addPool();
+    }
+
+    contactGroundPipe() {
+        let collider = this.bird.getComponent(Collider2D);
+
+        if (collider) {
+            collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this)
+        }
+    }
+
+    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+        this.bird.hitSomething = true;
+        this.clip.onAudioQueue(2);
+    }
+
+    birdStruck() {
+        this.contactGroundPipe();
+
+        if (this.bird.hitSomething == true) {
+            this.gameOver();
+        }
+    }
+
+    update() {
+        if (this.isOver == false) {
+            this.birdStruck();
+        }
     }
 }
