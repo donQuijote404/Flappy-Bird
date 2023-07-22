@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, screen, find, UITransform} from 'cc';
+import { _decorator, Component, Node, Vec3, screen, find, UITransform, ToggleContainerComponent} from 'cc';
 const { ccclass, property } = _decorator;
 
 const random = (min, max) => {
@@ -68,8 +68,11 @@ export class Pipes extends Component {
             this.game.passPipe();
         }
 
-        if (this.topPipe.position.x <= (0 - this.scene.width)){
+        if (this.topPipe.position.x >= 1 && this.topPipe.position.x <= 3) {
             this.game.createPipe();
+        }
+
+        if (this.topPipe.position.x <= (0 - this.scene.width)){
             this.node.active = false;
             this.destroy();
         }
