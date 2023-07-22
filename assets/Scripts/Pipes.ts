@@ -73,8 +73,7 @@ export class Pipes extends Component {
         }
 
         if (this.topPipe.position.x <= (0 - this.scene.width)){
-            this.node.active = false;
-            this.destroy();
+            this.node.destroy();
         }
     }
 }
