@@ -52,14 +52,16 @@ export class Pipes extends Component {
     update(deltaTime) {
         this.tempSpeed = this.pipeSpeed * deltaTime;
 
+        // 
         this.tempStartLocationUp = this.topPipe.position;
-        this.tempStartLocationDown = this.bottomPipe.position;
-        
-        this.tempStartLocationDown.x -= this.tempSpeed;
         this.tempStartLocationUp.x -= this.tempSpeed;
-        
-        this.bottomPipe.setPosition(this.tempStartLocationDown);
         this.topPipe.setPosition(this.tempStartLocationUp);
+        
+
+        this.tempStartLocationDown = this.bottomPipe.position;
+        this.tempStartLocationDown.x -= this.tempSpeed;
+        this.bottomPipe.setPosition(this.tempStartLocationDown);
+        
 
         if(this.isPass == false && this.topPipe.position.x <= 0) {
             this.isPass = true;
@@ -68,6 +70,7 @@ export class Pipes extends Component {
 
         if (this.topPipe.position.x <= (0 - this.scene.width)){
             this.game.createPipe();
+            this.node.active = false;
             this.destroy();
         }
     }
