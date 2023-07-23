@@ -52,7 +52,7 @@ export class Pipes extends Component {
     update(deltaTime) {
         this.tempSpeed = this.pipeSpeed * deltaTime;
 
-        // 
+        // s
         this.tempStartLocationUp = this.topPipe.position;
         this.tempStartLocationUp.x -= this.tempSpeed;
         this.topPipe.setPosition(this.tempStartLocationUp);
