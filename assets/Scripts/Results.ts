@@ -39,11 +39,13 @@ export class Results extends Component {
         this.highSocer.string = 'High Score ' + this.maxScore;
         this.resultEnd.node.active = true;
         this.highSocer.node.active = true;
+        //u
     }
 
     hideResults() {
         this.highSocer.node.active = false;
         this.resultEnd.node.active = false;
+        //s
     }
 }
 
