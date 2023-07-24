@@ -2220,7 +2220,7 @@
         "__id__": 60
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 63
@@ -2498,7 +2498,7 @@
       "__id__": 20
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 67
@@ -2593,18 +2593,6 @@
     },
     "resultEnd": {
       "__id__": 33
-    },
-    "tapToPlay": {
-      "__id__": 36
-    },
-    "buttonContinue": {
-      "__id__": 47
-    },
-    "buttonExit": {
-      "__id__": 54
-    },
-    "windowGameOver": {
-      "__id__": 37
     },
     "_id": "49SxBEYCVMeaSNYnMFtWnX"
   },
