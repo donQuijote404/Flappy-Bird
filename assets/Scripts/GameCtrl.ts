@@ -1,4 +1,4 @@
-import { _decorator, CCInteger, Collider, Collider2D, Component, Contact2DType, director, EventKeyboard, Input, input, IPhysics2DContact, KeyCode, Node } from 'cc';
+import { _decorator, CCInteger, Collider, Collider2D, Component, Contact2DType, director, EventKeyboard, find, Input, input, IPhysics2DContact, KeyCode, Node } from 'cc';
 import {Ground} from './Ground';
 import {Results} from './Results';
 import { Bird } from './Bird';
@@ -47,33 +47,37 @@ export class GameCtrl extends Component {
     public pipeSpeed: number = 200;
 
     public isOver: boolean;
-
+    public overGameIsActive: boolean;
 
     onLoad() {
+        this.isOver = true;
         this.initListener();
         this.result.resetScore();
+        this.result.showUserManual();
+        this.result.buttonEvent();
+        this.result.hideGameOver();
         director.pause();
-        this.isOver = true;
     }
 
     initListener() {
         this.node.on(Node.EventType.TOUCH_START, () => {
-            if(this.isOver == true) {
-                this.resetGame();
-                this.bird.resetBird();
-                this.startGame()
+            if(this.result.windowGameOver.active == false) {
+                if(this.isOver == true) {
+                    this.resetGame();
+                    this.bird.resetBird();
+                    this.startGame()
+                }
             }
-
             if(this.isOver == false) {
                 this.bird.fly();
                 this.clip.onAudioQueue(0);
             }
-            
         })
     }
 
     startGame() {
         this.result.hideResults();
+        this.result.hideUserManual();
         director.resume();
     }
 
@@ -81,6 +85,7 @@ export class GameCtrl extends Component {
         this.result.showResults();
         this.isOver = true;
         this.clip.onAudioQueue(3);
+        this.result.showGameOver();
         director.pause();
     }
 

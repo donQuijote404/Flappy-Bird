@@ -80,6 +80,3 @@ export class Ground extends Component {
         this.ground3.setPosition(this.tempStartLocation3);
     }
 }
-
-
-ExtrapolationMode

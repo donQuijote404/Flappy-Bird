@@ -30,7 +30,6 @@ export class Bird extends Component {
         this.hitSomething = false;
     }
 
-
     fly() {
         let _this = this;
         tween(this.node.position)

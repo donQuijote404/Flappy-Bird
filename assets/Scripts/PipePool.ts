@@ -33,5 +33,3 @@ export class PipePool extends Component {
         this.initPool();
     }
 }
-
-
